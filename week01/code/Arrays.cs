@@ -6,7 +6,7 @@ public static class Arrays
     /// integer greater than 0.
     /// </summary>
     /// <returns>array of doubles that are the multiples of the supplied number</returns>
-    public static double[] MultiplesOf(int baseNumber, int count)
+    public static double[] MultiplesOf(double baseNumber, int count)
     {
         // Step 1: Create an array to store the results.
         //The size of the array is equal to the number of multiples required.
@@ -17,7 +17,7 @@ public static class Arrays
         for(int i=0; i< count; i++)
         {
             //Calculte the i-th multiple as a baseNumber * (i+1)
-            multiples[i]= baseNumber*(i+1);
+            multiples[i]= baseNumber * (i + 1);
         }
         //Step 3: Return the array of multiples.
         return multiples; 
@@ -34,18 +34,23 @@ public static class Arrays
     {
         // Step 1: Validade inputs.
         //Ensure the list is not null or empty and the amount is withing the valid range.
-        if(data==null|| data.Count ==0 || amount< 1 || amount>data.Count)
+        if(data == null|| data.Count == 0 || amount < 1 || amount > data.Count)
         {
             return; //Do nothing if inputs are invalid.
         }
 
-        //Step 2: Calculate the effective rotation amount.
         // If the amount equals the size of the list, no need to rotate.
+        if (amount % data.Count == 0)
+        {
+            return;
+        }
+
+        //Step 2: Calculate the effective rotation amount.
         int rotation = amount % data.Count;
 
         //Step 3: Split the list into two parts.
         //Use GetRange to create two sublists: one for the last 'rotation' elements and one for the rest.
-        List<int> lastPart= data.GetRange(data.Count - rotation, rotation);
+        List<int> lastPart = data.GetRange(data.Count - rotation, rotation);
         List<int> firstPart = data.GetRange(0, data.Count - rotation);
 
         //Step 4: Combine the two parts in rotated order.
