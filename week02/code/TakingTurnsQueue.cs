@@ -9,7 +9,7 @@
 /// </summary>
 public class TakingTurnsQueue
 {
-    private readonly PersonQueue _people = new();
+       private readonly PersonQueue _people = new();
 
     public int Length => _people.Length;
 
@@ -33,7 +33,7 @@ public class TakingTurnsQueue
     /// </summary>
     public Person GetNextPerson()
     {
-        if (_people.IsEmpty())
+       if (_people.IsEmpty())
         {
             throw new InvalidOperationException("No one in the queue.");
         }
@@ -43,12 +43,12 @@ public class TakingTurnsQueue
             if (person.Turns > 1)
             {
                 person.Turns -= 1;
-                _people.Enqueue(person);
-            }
+            _people.Enqueue(person);
+        }     
 
             return person;
         }
-    }
+    }        
 
     public override string ToString()
     {

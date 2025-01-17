@@ -7,7 +7,7 @@ Console.WriteLine("\n======================\nMysteryStack2\n====================
 Console.WriteLine(MysteryStack2.Run("5 3 7 + *"));
 Console.WriteLine(MysteryStack2.Run("6 2 + 5 3 - /"));
 try {
-    MysteryStack2.Run("3 +");
+    MysteryStack2.Run("3 4 * +");
     Console.WriteLine("WRONG: expected ApplicationException: Invalid Case 1!");
 }
 catch (ApplicationException e) {
@@ -15,7 +15,7 @@ catch (ApplicationException e) {
 }
 
 try {
-    MysteryStack2.Run("5 0 /");
+    MysteryStack2.Run("3 4 0 * /");
     Console.WriteLine("WRONG: expected ApplicationException: Invalid Case 2!");
 }
 catch (ApplicationException e) {
