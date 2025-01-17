@@ -9,8 +9,8 @@
 /// </summary>
 public class TakingTurnsQueue
 {
-       private readonly PersonQueue _people = new();
-
+    private readonly PersonQueue _people = new();
+    
     public int Length => _people.Length;
 
     /// <summary>
@@ -20,6 +20,11 @@ public class TakingTurnsQueue
     /// <param name="turns">Number of turns remaining</param>
     public void AddPerson(string name, int turns)
     {
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            throw new ArgumentException("Name cannot be null or empty.");
+        }
+        
         var person = new Person(name, turns);
         _people.Enqueue(person);
     }
@@ -40,18 +45,15 @@ public class TakingTurnsQueue
 
         Person person = _people.Dequeue();
 
-        if (person.Turns == 0 || person.Turns < 0)
+        if (person.Turns <= 0)
         {
             _people.Enqueue (person);
         }
 
-        else 
-        {
-            if (person.Turns > 1)
-            {
-                person.Turns -= 1;
-                _people.Enqueue(person);
-            }           
+        else if (person.Turns > 1){
+            person.Turns -= 1;
+            _people.Enqueue(person);
+                      
         }  
         return person;        
     }        
