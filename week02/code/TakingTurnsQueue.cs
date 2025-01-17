@@ -11,6 +11,7 @@ public class TakingTurnsQueue
 {
     private readonly Queue<Person> _people = new();
     
+    //switched .Length to .Count so it will count how many people are being added
     public int Length => _people.Count;
 
     /// <summary>
@@ -20,11 +21,6 @@ public class TakingTurnsQueue
     /// <param name="turns">Number of turns remaining</param>
     public void AddPerson(string name, int turns)
     {
-        if (string.IsNullOrWhiteSpace(name))
-        {
-            throw new ArgumentException("Name cannot be null or empty.");
-        }
-
         var person = new Person(name, turns);
         _people.Enqueue(person);
     }
@@ -38,14 +34,14 @@ public class TakingTurnsQueue
     /// </summary>
     public Person GetNextPerson()
     {
-       if (_people.Count == 0)
+       if (_people.Count == 0)  //Count starts from zero
         {
             throw new InvalidOperationException("No one in the queue.");
         }
 
         Person person = _people.Dequeue();
 
-        if (person.Turns <= 0)
+        if (person.Turns <= 0)  //handles infinite turns
         {
             _people.Enqueue (person);
         }

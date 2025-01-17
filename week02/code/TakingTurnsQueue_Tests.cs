@@ -1,4 +1,10 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+// I'm not really sure where should I write what I did, but I wrote on top of each part of the TakingTurnsQueue 
+//Before handling with the errors <Sue> would appear where <Bob> should be so the program wasn´t Dequeue properly
+//TakingTurnsQueue's length was counting the length of the name, so I changed to .Count to count the turns of the name
+//This file didn't have the infinite loop as well.
+
+
 
 // TODO Problem 1 - Run test cases and record any defects the test code finds in the comment above the test method.
 // DO NOT MODIFY THE CODE IN THE TESTS in this file, just the comments above the tests. 
