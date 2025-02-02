@@ -96,47 +96,38 @@ public static class SetsAndMaps
     /// </summary>
     public static bool IsAnagram(string word1, string word2)
     {
+        if (string.IsNullOrWhiteSpace(word1) || string.IsNullOrWhiteSpace(word2)) return false;
 
-    //TO DO Problem 3 write here:
-        if (string.IsNullOrWhiteSpace(word1) || string.IsNullOrWhiteSpace(word2))
-        return false;
-        //remove spaces and convert both words to lowercase
+        // Normalize the input: remove spaces and convert to lowercase
         word1 = word1.Replace(" ", "").ToLower();
         word2 = word2.Replace(" ", "").ToLower();
-         // If lengths don't match, it's not an anagram
-        if (word1.Length != word2.Length)
-            return false;
 
-        var charCount = new int[26]; // Fix array for the alphabet letters
+        if (word1.Length != word2.Length) return false;
 
-        // Increment character counts for word1
+        var charCount = new int[26]; // Array for alphabet letters (a-z)
+
+        // Increment the count for each character in word1
         foreach (var c in word1)
         {
-            if (char.IsLetter(c)) // Ensure the character is a valid letter
+            if (char.IsLetter(c))
             {
-                int index = c - 'a'; //calculate index for 'a' to 'z'
-                if (index >= 0 && index < 26) // ensure the index is within the value
-                {
-                    charCount[index]++;
-                }
+                charCount[c - 'a']++;
             }
         }
-        // Decrement character counts for word2
+
+        // Decrement the count for each character in word2
         foreach (var c in word2)
         {
-            if (char.IsLetter(c)) // Ensure the character is a valid letter
+            if (char.IsLetter(c))
             {
-                int index = c - 'a';
-                if (index >= 0 && index < 26) // If there's more of the character in word2, it's not an anagram
-                {
-                    charCount[index]--;
-                    if (charCount[index] < 0)
-                       return false;
-                }                    
+                charCount[c - 'a']--;
+                if (charCount[c - 'a'] < 0) return false; // Early exit if count goes negative
             }
         }
-        return charCount.All(count => count == 0); // Check if all counts are zero
+        // If all counts are zero, the words are anagrams
+        return true;
     }
+
 
     /// <summary>
     /// This function will read JSON (Javascript Object Notation) data from the 
@@ -151,7 +142,8 @@ public static class SetsAndMaps
     /// 
     /// https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php
     /// 
-    /// </summary>
+    /// </summary>public static string[] EarthquakeDailySummary()
+
     public static string[] EarthquakeDailySummary()
     {        
         const string uri = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson";
@@ -172,22 +164,21 @@ public static class SetsAndMaps
         // on those classes so that the call to Deserialize above works properly.
         // 2. Add code below to create a string out each place a earthquake has happened today and its magitude.
         // 3. Return an array of these string descriptions.
-        var summaries = new List<string>();
-        foreach (var feature in featureCollection.Features)
-        {
-            var place = feature.Properties.Place;
-            var magnitude = feature.Properties.Magnitude;
 
-            //check if magnitude is valid and not null
-            if (!string.IsNullOrWhiteSpace(place) && magnitude.HasValue)
+        var summaries = new List<string>();
+
+        if (featureCollection?.Features != null)
+        {
+            foreach (var feature in featureCollection.Features)
             {
-                summaries.Add($"Magnitude {magnitude.Value} at {place}");
+                var place = feature.Properties?.Place;
+                var magnitude = feature.Properties?.Magnitude;
+
+                if (!string.IsNullOrWhiteSpace(place) && magnitude.HasValue)
+                {
+                    summaries.Add($"Magnitude {magnitude.Value:F1} at {place}");
+                }
             }
-            else
-            {
-                summaries.Add("Missing data for this earthquake");
-            }           
         }
-        return summaries.ToArray();        
-    }    
-}
+        return summaries.ToArray();
+    }
